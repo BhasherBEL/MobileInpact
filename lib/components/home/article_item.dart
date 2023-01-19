@@ -3,7 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:mobileinpact/model/article.dart';
 import 'package:mobileinpact/services/time.dart';
 
-import '../db/articles_database.dart';
+import '../../db/articles_database.dart';
 
 class ArticleItem extends StatelessWidget {
   const ArticleItem(this.article, {super.key});
