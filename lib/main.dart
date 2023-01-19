@@ -1,11 +1,11 @@
-import 'dart:isolate';
-
 import 'package:flutter/material.dart';
 import 'package:mobileinpact/components/article_item.dart';
 import 'package:mobileinpact/db/articles_database.dart';
 import 'package:mobileinpact/model/article.dart';
 import 'package:mobileinpact/services/rss.dart';
 import 'package:wakelock/wakelock.dart';
+
+import 'components/settings/settings.dart';
 
 var secondaryColor = Colors.blue.shade300;
 
@@ -154,14 +154,5 @@ class _HomeState extends State<Home> {
                   itemCount: articles.length,
                 ),
         ));
-  }
-}
-
-class Settings extends StatelessWidget {
-  const Settings({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
