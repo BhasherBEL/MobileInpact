@@ -1,0 +1,31 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - "master"
+  push:
+    branches:
+      - "master"
+    tags-ignore:
+      - "release"
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    name: Build for Android
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+        cache: 'gradle'
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+        cache: true
+    - run: flutter pub get
+    - run: flutter analyze
+    - run: flutter build apk --debug

@@ -1,10 +1,11 @@
-name: Build
+name: Release Build
 
 on:
-  pull_request:
-    branches: [ "master" ]
   push:
-    branches: [ "master" ]
+    branches:
+      - "master"
+    tags:
+      - "release"
   workflow_dispatch:
 
 jobs:
@@ -23,4 +24,9 @@ jobs:
         channel: 'stable'
         cache: true
     - run: flutter pub get
-    - run: flutter build apk --debug
+    - run: flutter analyze
+    - run: flutter build apk --release
+    - uses: ncipollo/release-action@v1.12.0
+      with:
+        artifacts: "build/app/outputs/flutter-apk/*.apk"
+        token: $
