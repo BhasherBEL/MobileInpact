@@ -18,14 +18,10 @@ class TextSetting extends StatefulWidget {
 class _TextSettingState extends State<TextSetting> {
   final TextEditingController controller = TextEditingController();
 
-  Future refreshValue() async {
-    controller.text = (await widget.setting.get()) as String;
-  }
-
   @override
   void initState() {
+    controller.text = (widget.setting.get()) as String;
     super.initState();
-    refreshValue();
   }
 
   void save(String value) {

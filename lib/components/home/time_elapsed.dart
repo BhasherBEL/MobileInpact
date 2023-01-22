@@ -39,7 +39,10 @@ class _TimeElapsedState extends State<TimeElapsed> {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "Last update : " + timeElapsed(InternalData.lastUpdate),
+      "Last update : " +
+          (InternalData.lastUpdate.millisecondsSinceEpoch > 0
+              ? timeElapsed(InternalData.lastUpdate)
+              : 'Never'),
     );
   }
 }

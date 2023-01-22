@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobileinpact/services/shared_prefs.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 enum SettingType {
   Text,
@@ -10,6 +9,11 @@ enum SettingType {
 enum Setting {
   rssUrl('rssUrl', SettingType.Text, Icons.rss_feed, 'RSS feed URL', ''),
   theme('theme', SettingType.Switch, Icons.dark_mode_sharp, 'Dark mode', true,
+      enabled: false),
+  fetchOnStartup('fetchOnStartup', SettingType.Switch, Icons.cloud_download,
+      'Fetch on startup', false),
+  autoFetch('autoFetch', SettingType.Switch, Icons.downloading,
+      'Auto fetch every hour', false,
       enabled: false);
 
   const Setting(this.name, this.type, this.icon, this.text, this.defaultValue,

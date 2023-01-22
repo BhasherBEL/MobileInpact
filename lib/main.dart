@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobileinpact/components/home/home.dart';
-import 'package:mobileinpact/components/read_later/read_later.dart';
 import 'package:mobileinpact/components/settings/settings.dart';
 import 'package:mobileinpact/services/shared_prefs.dart';
 import 'package:wakelock/wakelock.dart';
@@ -23,6 +22,7 @@ class MobileImpactApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: const Color(0xFF831C1C),
+        // ignore: deprecated_member_use
         accentColor: const Color(0xFF115291),
         appBarTheme: const AppBarTheme(
           backgroundColor: Color(0xFF831C1C),

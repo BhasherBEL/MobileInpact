@@ -29,7 +29,7 @@ String timeElapsed(DateTime dateTime) {
     if (dateTime.year < now.year) {
       return '${dateTime.day}${dateTime.day == 1 ? 'st' : 'th'} ${monthText(dateTime.month)} ${dateTime.year}';
     } else {
-      return 'Le ${dateTime.day} ${monthText(dateTime.month)}';
+      return '${dateTime.day}${dateTime.day == 1 ? 'st' : 'th'} ${monthText(dateTime.month)}';
     }
   } else if (difference.inDays > 0) {
     return _plural('day', difference.inDays);

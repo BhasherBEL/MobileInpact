@@ -1,27 +1,37 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobileinpact/model/article.dart';
 import 'package:mobileinpact/services/time.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../db/articles_database.dart';
 
-class ArticleItem extends StatelessWidget {
+class ArticleItem extends StatefulWidget {
   const ArticleItem(this.article, {super.key});
 
   final Article article;
 
   @override
+  State<ArticleItem> createState() => _ArticleItemState();
+}
+
+class _ArticleItemState extends State<ArticleItem> {
+  @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-      leading: article.image == null
-          ? article.imageUrl != null
-              ? Image.network(article.imageUrl!, width: 80, fit: BoxFit.fill)
-              : Image.asset('assets/default-leading.jpg',
-                  width: 80, fit: BoxFit.fill)
-          : Image.memory(article.image!, width: 80, fit: BoxFit.fill),
+      leading: CachedNetworkImage(
+        width: 80,
+        height: 60,
+        fit: BoxFit.cover,
+        imageUrl: widget.article.imageUrl!,
+        placeholder: ((context, url) => CircularProgressIndicator()),
+        errorWidget: (context, url, error) =>
+            Image.asset('assets/default-leading.jpg', fit: BoxFit.cover),
+      ),
       title: Text(
-        article.title,
+        widget.article.title,
         maxLines: 3,
         style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
       ),
@@ -34,14 +44,14 @@ class ArticleItem extends StatelessWidget {
               color: Colors.grey,
             ),
           ),
-          Text(timeElapsed(article.pubDate))
+          Text(timeElapsed(widget.article.pubDate))
         ],
       ),
       onTap: () => {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (_) => ArticleScreen(articleId: article.id!)))
+                builder: (_) => ArticleScreen(articleId: widget.article.id!)))
       },
     );
   }
@@ -97,9 +107,14 @@ class _ArticleScreenState extends State<ArticleScreen> {
                       Text(timeElapsed(article!.pubDate)),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: article!.imageUrl != null
-                            ? Image.network(article!.imageUrl!)
-                            : Image.asset('assets/default-leading.jpg'),
+                        child: CachedNetworkImage(
+                          imageUrl: article!.imageUrl!,
+                          placeholder: ((context, url) =>
+                              CircularProgressIndicator()),
+                          errorWidget: (context, url, error) => Image.asset(
+                              'assets/default-leading.jpg',
+                              fit: BoxFit.cover),
+                        ),
                       ),
                       Html(
                         data: article!.content!,
@@ -111,10 +126,11 @@ class _ArticleScreenState extends State<ArticleScreen> {
                         },
                         onLinkTap: (url, context, attributes, element) async {
                           if (url == null) return;
-                          // if (await canLaunchUrlString(url)) {
-                          // await launchUrlString(url,
-                          //     mode: LaunchMode.externalApplication);
-                          // }
+                          if (await canLaunchUrlString(url))
+                            launchUrlString(
+                              url,
+                              mode: LaunchMode.externalApplication,
+                            );
                         },
                       ),
                     ],

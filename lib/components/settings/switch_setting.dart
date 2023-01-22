@@ -17,17 +17,10 @@ class SwitchSetting extends StatefulWidget {
 class _SwitchSettingState extends State<SwitchSetting> {
   bool currentState = false;
 
-  Future refreshState() async {
-    currentState = (await widget.setting.get()) as bool;
-    setState(
-      () => currentState = currentState,
-    );
-  }
-
   @override
   void initState() {
+    currentState = (widget.setting.get()) as bool;
     super.initState();
-    refreshState();
   }
 
   void save(bool state) {
@@ -49,7 +42,7 @@ class _SwitchSettingState extends State<SwitchSetting> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           if (!widget.setting.enabled)
-            Text(' (disabled)', style: TextStyle(fontStyle: FontStyle.italic)),
+            Text(' (soon)', style: TextStyle(fontStyle: FontStyle.italic)),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
