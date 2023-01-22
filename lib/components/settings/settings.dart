@@ -4,8 +4,8 @@ import 'package:mobileinpact/model/setting.dart';
 import 'text_setting.dart';
 import 'switch_setting.dart';
 
-class Settings extends StatelessWidget {
-  const Settings({super.key});
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

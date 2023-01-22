@@ -4,17 +4,18 @@ import 'package:mobileinpact/model/article.dart';
 import 'package:mobileinpact/services/rss.dart';
 
 import 'article_item.dart';
+import 'time_elapsed.dart';
 
-class Home extends StatefulWidget {
-  const Home({
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   late List<Article> articles;
   bool isLoading = false;
 
@@ -43,15 +44,24 @@ class _HomeState extends State<Home> {
           ));
           refreshArticles();
         },
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: isLoading
-              ? const CircularProgressIndicator()
-              : ListView.separated(
+        child: isLoading
+            ? const CircularProgressIndicator()
+            : Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: ListView.separated(
                   scrollDirection: Axis.vertical,
                   addAutomaticKeepAlives: false,
                   itemBuilder: (context, index) {
-                    return ArticleItem(articles[index]);
+                    if (index == 0)
+                      return Container(
+                        width: double.infinity,
+                        height: 30,
+                        child: Center(
+                          child: TimeElapsed(),
+                        ),
+                      );
+                    else
+                      return ArticleItem(articles[index - 1]);
                   },
                   separatorBuilder: (context, index) {
                     return Divider(
@@ -60,8 +70,8 @@ class _HomeState extends State<Home> {
                           .toColor(),
                     );
                   },
-                  itemCount: articles.length,
+                  itemCount: articles.length + 1,
                 ),
-        ));
+              ));
   }
 }

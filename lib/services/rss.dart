@@ -4,10 +4,11 @@ import 'package:mobileinpact/db/articles_database.dart';
 import 'package:mobileinpact/model/article.dart';
 import 'package:http/http.dart';
 import 'package:mobileinpact/model/setting.dart';
+import 'package:mobileinpact/services/internal_data.dart';
 import 'package:webfeed/domain/rss_feed.dart';
 
 Future<int> fetchItems() async {
-  String url = await Setting.rssUrl.get();
+  String url = Setting.rssUrl.get() as String;
   try {
     Uri uri = Uri.parse(url);
     final response = await get(uri);
@@ -19,6 +20,8 @@ Future<int> fetchItems() async {
 
     final items =
         await Future.wait(decoded.items!.map((e) => Article.fromRssItem(e)));
+
+    InternalData.lastUpdate = DateTime.now();
 
     return items
         .map((e) => ArticlesDatabase.instance.insertIfNotExist(e))

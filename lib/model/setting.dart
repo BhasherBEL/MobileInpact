@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobileinpact/services/shared_prefs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum SettingType {
@@ -21,18 +22,15 @@ enum Setting {
   final Object defaultValue;
   final bool enabled;
 
-  Future get() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.get(name) ?? defaultValue;
+  Object get() {
+    return SharedPrefs().instance.get(name) ?? defaultValue;
   }
 
   Future<bool> setString(String value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setString(name, value);
+    return SharedPrefs().instance.setString(name, value);
   }
 
   Future<bool> setBool(bool state) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setBool(name, state);
+    return SharedPrefs().instance.setBool(name, state);
   }
 }

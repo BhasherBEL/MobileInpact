@@ -1,19 +1,23 @@
 String monthText(int month) {
   return [
     '',
-    'janvier',
-    'février',
-    'mars',
-    'avril',
-    'mai',
-    'juin',
-    'juillet',
-    'août',
-    'septembre',
-    'octobre',
-    'novembre',
-    'décembre'
+    'January',
+    'Febuary',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'november',
+    'december'
   ][month];
+}
+
+String _plural(String word, int amount) {
+  return '$amount $word${amount != 1 ? 's' : ''} ago';
 }
 
 String timeElapsed(DateTime dateTime) {
@@ -23,15 +27,17 @@ String timeElapsed(DateTime dateTime) {
 
   if (difference.inDays > 7) {
     if (dateTime.year < now.year) {
-      return 'Le ${dateTime.day} ${monthText(dateTime.month)} ${dateTime.year}';
+      return '${dateTime.day}${dateTime.day == 1 ? 'st' : 'th'} ${monthText(dateTime.month)} ${dateTime.year}';
     } else {
       return 'Le ${dateTime.day} ${monthText(dateTime.month)}';
     }
   } else if (difference.inDays > 0) {
-    return 'Il y a ${difference.inDays} jours';
+    return _plural('day', difference.inDays);
   } else if (difference.inHours > 0) {
-    return 'Il y a ${difference.inHours} heures';
+    return _plural('hour', difference.inHours);
+  } else if (difference.inMinutes > 0) {
+    return _plural('minute', difference.inMinutes);
   } else {
-    return 'Il y a ${difference.inMinutes} minutes';
+    return _plural('second', difference.inSeconds);
   }
 }

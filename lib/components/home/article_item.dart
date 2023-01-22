@@ -13,7 +13,7 @@ class ArticleItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
       leading: article.image == null
           ? article.imageUrl != null
               ? Image.network(article.imageUrl!, width: 80, fit: BoxFit.fill)

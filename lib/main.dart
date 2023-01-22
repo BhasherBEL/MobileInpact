@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mobileinpact/components/home/home.dart';
 import 'package:mobileinpact/components/read_later/read_later.dart';
 import 'package:mobileinpact/components/settings/settings.dart';
+import 'package:mobileinpact/services/shared_prefs.dart';
 import 'package:wakelock/wakelock.dart';
 
 var secondaryColor = Colors.blue.shade300;
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPrefs().init();
   runApp(const MobileImpactApp());
 }
 
@@ -42,10 +45,22 @@ class Main extends StatefulWidget {
   State<Main> createState() => _MainState();
 }
 
-class _MainState extends State<Main> {
-  int _currentIndex = 1;
+enum Pages {
+  // ReadLater('Read Later', Icons.watch_later, ReadLaterScreen()),
+  Home('Home', Icons.home, HomeScreen()),
+  Settings('Settings', Icons.settings, SettingsScreen());
 
-  final List<Widget> _pages = const <Widget>[ReadLater(), Home(), Settings()];
+  const Pages(this.label, this.icon, this.screen);
+
+  final String label;
+  final IconData icon;
+  final Widget screen;
+
+  static int defaultIndex = Pages.values.indexOf(Pages.Home);
+}
+
+class _MainState extends State<Main> {
+  int _currentIndex = Pages.defaultIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -56,24 +71,14 @@ class _MainState extends State<Main> {
           width: 200,
         ),
       ),
-      body: _pages[_currentIndex],
+      body: Pages.values[_currentIndex].screen,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         selectedItemColor: secondaryColor,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.watch_later),
-            label: 'Read Later',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
+        items: Pages.values
+            .map((e) =>
+                BottomNavigationBarItem(icon: Icon(e.icon), label: e.label))
+            .toList(),
         onTap: (index) {
           setState(() {
             _currentIndex = index;
