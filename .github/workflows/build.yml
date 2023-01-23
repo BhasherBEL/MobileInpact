@@ -4,9 +4,13 @@ on:
   pull_request:
     branches:
       - "master"
+    paths:
+      - lib/**
   push:
     branches:
       - "master"
+    paths:
+      - lib/**
   workflow_dispatch:
 
 jobs:
