@@ -7,7 +7,6 @@ import 'package:mobileinpact/components/home/lebrief_news_list.dart';
 import 'package:mobileinpact/components/home/news.dart';
 import 'package:mobileinpact/services/colors.dart';
 import 'package:mobileinpact/services/shared_prefs.dart';
-import 'package:wakelock/wakelock.dart';
 
 var secondaryColor = Colors.blue.shade300;
 var backgroundColor = Color(0xFF202020);
@@ -23,7 +22,6 @@ class MobileImpactApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Wakelock.enable();
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.dark,

@@ -13,7 +13,6 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  wakelock: ^0.6.2
   sqflite: ^2.2.3
   http: ^0.13.5
   webfeed: ^0.7.0
