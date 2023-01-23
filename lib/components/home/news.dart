@@ -4,16 +4,13 @@ import 'package:mobileinpact/model/article.dart';
 import 'package:mobileinpact/model/setting.dart';
 import 'package:mobileinpact/services/rss.dart';
 
-import 'article_item.dart';
-import 'time_elapsed.dart';
-
 class NewsScreen extends StatefulWidget {
   const NewsScreen({
     Key? key,
-    required this.filter,
+    required this.buildChild,
   }) : super(key: key);
 
-  final List<Article> Function(List<Article>) filter;
+  final Function buildChild;
 
   @override
   State<NewsScreen> createState() => _NewsScreenState();
@@ -21,14 +18,13 @@ class NewsScreen extends StatefulWidget {
 
 class _NewsScreenState extends State<NewsScreen> {
   late List<Article> articles;
-  bool isLoading = false;
+  bool isLoading = true;
 
   static bool firstRun = true;
 
   Future refreshArticles() async {
     setState(() => isLoading = true);
-    articles = widget
-        .filter(await ArticlesDatabase.instance.getAllArticlesSummaries());
+    articles = await ArticlesDatabase.instance.getAllArticlesSummaries();
     setState(() => isLoading = false);
   }
 
@@ -61,26 +57,7 @@ class _NewsScreenState extends State<NewsScreen> {
             ? const CircularProgressIndicator()
             : Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: ListView.separated(
-                  scrollDirection: Axis.vertical,
-                  addAutomaticKeepAlives: false,
-                  itemBuilder: (context, index) {
-                    if (index == 0)
-                      return Container(
-                        width: double.infinity,
-                        height: 30,
-                        child: Center(
-                          child: TimeElapsed(),
-                        ),
-                      );
-                    else
-                      return ArticleItem(articles[index - 1]);
-                  },
-                  separatorBuilder: (context, index) {
-                    return Divider();
-                  },
-                  itemCount: articles.length + 1,
-                ),
+                child: widget.buildChild(articles),
               ));
   }
 }

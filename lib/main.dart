@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mobileinpact/components/home/all_news_list.dart';
+import 'package:mobileinpact/components/home/articles_news_list.dart';
 import 'package:mobileinpact/components/home/drawer_menu.dart';
+import 'package:mobileinpact/components/home/flock_news_list.dart';
+import 'package:mobileinpact/components/home/lebrief_news_list.dart';
 import 'package:mobileinpact/components/home/news.dart';
 import 'package:mobileinpact/services/colors.dart';
 import 'package:mobileinpact/services/shared_prefs.dart';
@@ -55,25 +59,43 @@ class Pages {
 
   final String label;
   final IconData icon;
-  final NewsScreen screen;
+  final Widget screen;
 
   static Pages allNewsPage = Pages(
-      'All News',
-      Icons.home,
-      NewsScreen(
-        filter: (a) => a,
-      ));
+    'All News',
+    Icons.home,
+    NewsScreen(
+      buildChild: (articles) => AllNewsList(allArticles: articles),
+    ),
+  );
+  static Pages articlesPage = Pages(
+    'Articles',
+    Icons.newspaper,
+    NewsScreen(
+      buildChild: (articles) => ArticlesNewsList(allArticles: articles),
+    ),
+  );
   static Pages leBriefPage = Pages(
-      '#Le Brief',
-      Icons.free_breakfast,
-      NewsScreen(
-        filter: (a) => a
-            .getRange(0, 5)
-            // .where((e) => e.link != null && e.link!.contains('lebrief'))
-            .toList(),
-      ));
+    '#Le Brief',
+    Icons.free_breakfast,
+    NewsScreen(
+      buildChild: (articles) => LeBriefNewsList(allArticles: articles),
+    ),
+  );
+  static Pages flockPage = Pages(
+    'Flock',
+    Icons.draw,
+    NewsScreen(
+      buildChild: (articles) => FlockNewsList(allArticles: articles),
+    ),
+  );
 
-  static List<Pages> pages = [allNewsPage, leBriefPage];
+  static List<Pages> pages = [
+    allNewsPage,
+    articlesPage,
+    leBriefPage,
+    flockPage,
+  ];
 }
 
 class _MainState extends State<Main> {

@@ -41,3 +41,30 @@ String timeElapsed(DateTime dateTime) {
     return _plural('second', difference.inSeconds);
   }
 }
+
+String daysElapsed(DateTime dateTime) {
+  DateTime now = DateTime.now();
+
+  if (now.year == dateTime.year && now.month == dateTime.month) {
+    if (now.day == dateTime.day) return 'the day';
+    if (now.day == dateTime.day + 1) return 'yesterday';
+  }
+
+  int delta = daysBetween(dateTime, now);
+  if (delta < 7) return delta.toString() + ' days ago';
+
+  return timeElapsed(dateTime);
+}
+
+String getStringDate(DateTime dateTime) {
+  return dateTime.year.toString().padLeft(4, '0') +
+      dateTime.month.toString().padLeft(2, '0') +
+      dateTime.day.toString().padLeft(2, '0');
+}
+
+// https://stackoverflow.com/questions/52713115/flutter-find-the-number-of-days-between-two-dates
+int daysBetween(DateTime from, DateTime to) {
+  from = DateTime(from.year, from.month, from.day);
+  to = DateTime(to.year, to.month, to.day);
+  return (to.difference(from).inHours / 24).round();
+}
