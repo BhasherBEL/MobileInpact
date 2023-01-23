@@ -7,16 +7,19 @@ import 'package:mobileinpact/services/rss.dart';
 import 'article_item.dart';
 import 'time_elapsed.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({
+class NewsScreen extends StatefulWidget {
+  const NewsScreen({
     Key? key,
+    required this.filter,
   }) : super(key: key);
 
+  final List<Article> Function(List<Article>) filter;
+
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<NewsScreen> createState() => _NewsScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _NewsScreenState extends State<NewsScreen> {
   late List<Article> articles;
   bool isLoading = false;
 
@@ -24,7 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future refreshArticles() async {
     setState(() => isLoading = true);
-    articles = await ArticlesDatabase.instance.getAllArticlesSummaries();
+    articles = widget
+        .filter(await ArticlesDatabase.instance.getAllArticlesSummaries());
     setState(() => isLoading = false);
   }
 
@@ -73,11 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return ArticleItem(articles[index - 1]);
                   },
                   separatorBuilder: (context, index) {
-                    return Divider(
-                      color: HSLColor.fromColor(Theme.of(context).primaryColor)
-                          .withLightness(0.5)
-                          .toColor(),
-                    );
+                    return Divider();
                   },
                   itemCount: articles.length + 1,
                 ),

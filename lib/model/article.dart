@@ -116,6 +116,7 @@ class Article {
   static Article fromShortJson(Map<String, Object?> json) {
     return Article(
       id: json[ArticleFields.id] as int,
+      link: json[ArticleFields.link] as String,
       title: json[ArticleFields.title] as String,
       imageUrl: json[ArticleFields.imageUrl] as String,
       pubDate: DateTime.fromMillisecondsSinceEpoch(

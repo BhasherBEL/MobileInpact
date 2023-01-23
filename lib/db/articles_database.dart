@@ -89,6 +89,7 @@ CREATE TABLE $tableArticles (
     final articles = await db.query(tableArticles,
         columns: [
           ArticleFields.id,
+          ArticleFields.link,
           ArticleFields.title,
           ArticleFields.pubDate,
           ArticleFields.imageUrl

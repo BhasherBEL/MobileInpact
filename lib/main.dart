@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mobileinpact/components/home/home.dart';
-import 'package:mobileinpact/components/settings/settings.dart';
+import 'package:mobileinpact/components/home/drawer_menu.dart';
+import 'package:mobileinpact/components/home/news.dart';
+import 'package:mobileinpact/services/colors.dart';
 import 'package:mobileinpact/services/shared_prefs.dart';
 import 'package:wakelock/wakelock.dart';
 
 var secondaryColor = Colors.blue.shade300;
+var backgroundColor = Color(0xFF202020);
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,17 +23,17 @@ class MobileImpactApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: const Color(0xFF831C1C),
+        primaryColor: Color(0xFF6E1616),
         // ignore: deprecated_member_use
         accentColor: const Color(0xFF115291),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF831C1C),
+          backgroundColor: Color(0xFF6E1616),
         ),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Color(0xFF831C1C),
-        ),
+        scaffoldBackgroundColor: backgroundColor,
+        drawerTheme: DrawerThemeData(backgroundColor: backgroundColor),
+        dividerColor: backgroundColor.lighten(0.2),
       ),
-      home: const Main(),
+      home: Main(page: Pages.allNewsPage),
     );
   }
 }
@@ -39,28 +41,55 @@ class MobileImpactApp extends StatelessWidget {
 class Main extends StatefulWidget {
   const Main({
     Key? key,
+    required this.page,
   }) : super(key: key);
+
+  final Pages page;
 
   @override
   State<Main> createState() => _MainState();
 }
 
-enum Pages {
-  // ReadLater('Read Later', Icons.watch_later, ReadLaterScreen()),
-  Home('Home', Icons.home, HomeScreen()),
-  Settings('Settings', Icons.settings, SettingsScreen());
-
-  const Pages(this.label, this.icon, this.screen);
+class Pages {
+  Pages(this.label, this.icon, this.screen);
 
   final String label;
   final IconData icon;
-  final Widget screen;
+  final NewsScreen screen;
 
-  static int defaultIndex = Pages.values.indexOf(Pages.Home);
+  static Pages allNewsPage = Pages(
+      'All News',
+      Icons.home,
+      NewsScreen(
+        filter: (a) => a,
+      ));
+  static Pages leBriefPage = Pages(
+      '#Le Brief',
+      Icons.free_breakfast,
+      NewsScreen(
+        filter: (a) => a
+            .getRange(0, 5)
+            // .where((e) => e.link != null && e.link!.contains('lebrief'))
+            .toList(),
+      ));
+
+  static List<Pages> pages = [allNewsPage, leBriefPage];
 }
 
 class _MainState extends State<Main> {
-  int _currentIndex = Pages.defaultIndex;
+  late Pages page;
+
+  void updateBody(Pages p) {
+    setState(() {
+      page = p;
+    });
+  }
+
+  @override
+  void initState() {
+    page = widget.page;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,20 +100,8 @@ class _MainState extends State<Main> {
           width: 200,
         ),
       ),
-      body: Pages.values[_currentIndex].screen,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        selectedItemColor: secondaryColor,
-        items: Pages.values
-            .map((e) =>
-                BottomNavigationBarItem(icon: Icon(e.icon), label: e.label))
-            .toList(),
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-      ),
+      body: page.screen,
+      drawer: DrawerMenu(updateBody),
     );
   }
 }
