@@ -1,0 +1,1 @@
+MobileInpact is an unofficial client for NextInpact. It downloads articles from RSS feed, organize them and allows to consult them afterwards, even offline. 

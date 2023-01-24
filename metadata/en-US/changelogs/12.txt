@@ -1,0 +1,1 @@
+- Prepare app for f-droid

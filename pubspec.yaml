@@ -3,7 +3,7 @@ description: An unofficial client for NextInpact
 
 publish_to: 'none'
 
-version: 0.1.1
+version: 0.1.2
 
 environment:
   sdk: '>=2.18.6 <3.0.0'
@@ -37,4 +37,5 @@ flutter:
 flutter_icons:
   android: true
   ios: true
-  image_path: 'assets/nxix-favicon.png'
+  image_path: 'assets/nxix-favicon2.png'
+  adaptive_icon_foreground: "assets/nxix-favicon2.png"

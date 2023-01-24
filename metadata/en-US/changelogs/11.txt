@@ -1,0 +1,2 @@
+- New drawer menu with categories
+- Cleaner code
