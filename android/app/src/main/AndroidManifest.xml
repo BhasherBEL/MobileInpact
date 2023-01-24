@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="be.bhasher.mobileinpact">
    <application
-        android:label="mobileinpact"
+        android:label="MobileInpact"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
