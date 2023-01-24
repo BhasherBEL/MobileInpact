@@ -14,4 +14,4 @@ A request to add the app to the official f-droid repository is on progress.
 
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
-![Home Page](metadata/images/phoneScreenshots/1.png?raw=true) | ![Menu](metadata/images/phoneScreenshots/2.png?raw=true) | ![Le Brief](metadata/images/phoneScreenshots/3.png?raw=true) |
+![Home Page](https://raw.githubusercontent.com/BhasherBEL/MobileInpact/master/metadata/en-US/images/phoneScreenshots/1.png) | ![Menu](https://raw.githubusercontent.com/BhasherBEL/MobileInpact/master/metadata/en-US/images/phoneScreenshots/2.png) | ![Le Brief](https://raw.githubusercontent.com/BhasherBEL/MobileInpact/master/metadata/en-US/images/phoneScreenshots/3.png) |
